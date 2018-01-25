@@ -4,6 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import org.dcode.magang.Adapter.TiketAdapter;
+import org.dcode.magang.Model.Tiket;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.dcode.magang;
+package org.dcode.magang.Model;
 
 /**
  * Created by hp on 22/01/2018.

@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:paddingBottom="16dp">
+        android:paddingBottom="16dp"
+        android:background="@android:drawable/screen_background_light_transparent">
 
         <TextView
             android:id="@+id/name"
@@ -41,8 +42,12 @@
             android:paddingLeft="16dp"
             android:text="Divisi Sistem Informasi Manajemen"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
 
+        <View android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#bbb"/>
     </LinearLayout>
 
 
@@ -51,8 +56,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="30dp"
-        android:gravity="center">
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -63,7 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:src="@drawable/order"
-                android:id="@+id/input_order"/>
+                android:id="@+id/input_order"
+                android:layout_marginBottom="20dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -81,7 +88,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:src="@drawable/ticket"
-                android:id="@+id/see_history"/>
+                android:id="@+id/see_history"
+                android:layout_marginBottom="20dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -105,7 +113,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:src="@drawable/help"
-                android:id="@+id/see_help"/>
+                android:id="@+id/see_help"
+                android:layout_marginBottom="20dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -123,7 +132,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:src="@drawable/profil"
-                android:id="@+id/see_profile"/>
+                android:id="@+id/see_profile"
+                android:layout_marginBottom="20dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
