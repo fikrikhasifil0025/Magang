@@ -5,7 +5,7 @@ package org.dcode.magang.Api;
  */
 
 public class UtilsApi {
-    public static final String BASE_URL_API = "http://10.0.2.2/";
+    public static final String BASE_URL_API = "http://192.168.11.62/";
 
     // Mendeklarasikan Interface BaseApiService
     public static BaseApiService getAPIService(){

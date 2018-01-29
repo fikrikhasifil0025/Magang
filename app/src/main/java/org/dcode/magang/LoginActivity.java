@@ -14,11 +14,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.dcode.magang.Api.BaseApiService;
+import org.dcode.magang.Api.UtilsApi;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginButton;
     private EditText nik,password;
     private TextView tvLupaPassword;
+    Context mContext;
+    ProgressDialog loading;
+
+    BaseApiService mApiService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +47,13 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = (Button) findViewById(R.id.btn_login);
         tvLupaPassword = (TextView) findViewById(R.id.lupa_password);
 
+//        mContext = this;
+//        mApiService = UtilsApi.getAPIService(); // meng-init yang ada di package apihelper
+//        initComponents();
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loading = ProgressDialog.show(mContext, null, "Waiting for connecting...", true, false);
                 login();
             }
         });
@@ -43,13 +64,28 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+//    private void initComponents() {
+//        nik = (EditText) findViewById(R.id.input_nik);
+//        password = (EditText) findViewById(R.id.input_password);
+//        loginButton = (Button) findViewById(R.id.btn_login);
+//
+//        loginButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                loading = ProgressDialog.show(mContext, null, "Waiting for connecting...", true, false);
+//                login();
+//            }
+//        });
+//    }
+
     public  void login(){
         String username = nik.getText().toString();
         String passwordKey = password.getText().toString();
 
         if (username.equals("1234") && passwordKey.equals("1234")){
             //jika login berhasil
-            Toast.makeText(getApplicationContext(), "LOGIN SUKSES",
+            Toast.makeText(getApplicationContext(), "LOGIN SUCCESS",
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             LoginActivity.this.startActivity(intent);
@@ -57,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         }else {
             //jika login gagal
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-            builder.setMessage("Username atau Password Anda salah!")
+            builder.setMessage("Username or Password wrong!")
                     .setNegativeButton("Retry", null).create().show();
         }
     }
@@ -82,6 +118,46 @@ public class LoginActivity extends AppCompatActivity {
         }else{
             Toast.makeText(mContext, "Email Belum terdaftar", Toast.LENGTH_LONG);
         }
+    }
+
+    public void requestLogin(){
+        mApiService.loginRequest(nik.getText().toString(), password.getText().toString())
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()){
+                            loading.dismiss();
+                            try {
+                                JSONObject jsonRESULTS = new JSONObject(response.body().string());
+                                if (jsonRESULTS.getString("error").equals("false")){
+                                    // Jika login berhasil maka data nama yang ada di response API
+                                    // akan diparsing ke activity selanjutnya.
+                                    Toast.makeText(mContext, "LOGIN SUCCESS", Toast.LENGTH_SHORT).show();
+                                    String nama = jsonRESULTS.getJSONObject("user").getString("nama");
+                                    Intent intent = new Intent(mContext, MainActivity.class);
+                                    intent.putExtra("result_nama", nama);
+                                    startActivity(intent);
+                                } else {
+                                    // Jika login gagal
+                                    String error_message = jsonRESULTS.getString("error_msg");
+                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            loading.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e("debug", "onFailure: ERROR > " + t.toString());
+                        loading.dismiss();
+                    }
+                });
     }
 
 }
