@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.input_password);
         loginButton = (Button) findViewById(R.id.btn_login);
         tvLupaPassword = (TextView) findViewById(R.id.lupa_password);
-
+//      loginbutton
 //        mContext = this;
 //        mApiService = UtilsApi.getAPIService(); // meng-init yang ada di package apihelper
 //        initComponents();
